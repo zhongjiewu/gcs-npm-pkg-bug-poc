@@ -2,9 +2,10 @@ import { Storage } from '@google-cloud/storage'
 import sleep from 'sleep-promise'
 
 async function main() {
-  const client = new Storage()
+  const client = new Storage({ keyFilename: './key.json' })
   const cloudFile = client.bucket('tmp-gcs-npm-pkg-bug-poc').file('test.json')
   const jsonString = JSON.stringify({ hello: 'world' })
+  console.log('writing file to GCS')
   await cloudFile.save(jsonString, { gzip: true, contentType: 'application/json' })
   console.log('done writing')
   console.log('start to read')
